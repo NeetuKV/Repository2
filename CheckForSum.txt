@@ -3,6 +3,7 @@ package algorithmsNotes;
 import java.util.HashSet;
 import java.util.Set;
 
+//check if input sum = array[i] + array[i+1]
 public class Practicealgos {
 	public static boolean checkForSum(int[] array, int sum){
 		Set<Integer> duplicateSet = new HashSet<Integer>();
