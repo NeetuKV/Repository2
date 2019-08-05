@@ -1,0 +1,19 @@
+package algorithmsNotes;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class Practicealgos {
+	public static boolean checkForSum(int[] array, int sum){
+		Set<Integer> duplicateSet = new HashSet<Integer>();
+		for(int i =0; i<array.length; i++){
+			if(duplicateSet.contains(sum-array[i])){
+				return true;
+			}
+			else{
+				duplicateSet.add(array[i]);
+			}
+		}
+		return false;
+	} 
+}

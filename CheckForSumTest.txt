@@ -1,0 +1,14 @@
+package algorithmsNotes;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class PracticeAlgosTest {
+
+	@Test
+	public void test() {
+		//assertTrue(true, ({5,6,7,-1,2}, 9));
+	}
+
+}
