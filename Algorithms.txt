@@ -1,0 +1,335 @@
+﻿//Code to find the size of the singly linked list
+
+
+public static int toFindSizeLL(LinkedList<Integer> input){
+  if(input==null){
+    return 0;
+  }
+  int count=0;
+  LinkedList<Integer> currentNode=input;
+  while(currentNode!=null){
+    count++;
+    currentNode=currentNode.getNextNode();
+  }
+  return count;
+}
+
+
+//Code to find mth to last element in a LinkedList
+
+
+public static LinkedList<Integer> mthToLastElement(LinkedList<Integer> input, int m){
+  if(input==null){
+    return null;
+  }
+  if(input<m){
+   throw outOfBoundException();
+  }
+  int count=0;
+  LinkedList<Integer> currentNode=input;
+  while(currentNode!=null){
+    if(count==m){
+      return currentNode;
+    }
+    count++;
+    currentNode=currentNode.getNextNode();
+  }
+  return null;
+}
+
+
+Cost : O(n)
+
+
+//Given 2 strings, check whether one string is the permutation of the other.
+
+
+public static boolean isPermutation(String str1, String str2)
+  {
+
+
+   if(str1.length()!=str2.length())
+    {
+      return false;
+    }
+
+
+    Set<String> permutationSet=new HashSet<String>();
+    for(int i=0; i<str2.length(); i++)
+    {
+      permutationSet.add(str2.CharAt(i));
+    }
+    int count =0;
+    for(int i=0; i<str1.length(); i++)
+    {
+      count++;
+      if(!(permutationSet.contains(str1.charAt(i))))
+      {
+        return false;
+      }
+    }
+    return true;
+  }
+
+
+//Reverse only odd numbers in a list
+
+
+eg. A={1,2,3,4,5,6,7,8,9,10,11,12,13}
+output : {13,2,11,4,9,6,7,8,5,10,3,12,1}
+
+
+public static List<Integer> reverseOddNumbers(List<Integer> list)
+{
+        for(int i=0;  i<list.size()/2; i++)
+        {
+                if(list.get(i)%2==1)
+                {
+                        int temp=list.get(i);
+                        list.setValue(i, list.get(list.size()-i+1));
+                        list.setValue(list.get(list.size()-i+1), temp);
+                }
+        }
+        return list.size();
+}
+
+
+//Fibonacci 
+public class RecursiveFib {
+        public static int recursiveFib(int n){
+                if(n < 0 || n == 0){
+                        throw new IllegalArgumentException();
+                }
+                else if(n==1){
+                        return 0;
+                }
+                else if(n==2){
+                        return 1;
+                }
+                else 
+                        return recursiveFib(n-1) + recursiveFib(n-2);
+        }
+        public static void main(String[] args){
+                int n = 5;
+                System.out.println("Recursive Fib of n is : " + recursiveFib(5));
+                
+        }
+}
+
+
+//Test
+public class RecursiveFibTest extends TestCase{
+        public void testFindFib(){
+                //for n==1, fib(1) should return 0
+                assertEquals(0, RecursiveFib.recursiveFib(1));
+                
+                //for n==2, fib(2) should return 1
+                assertEquals(1, RecursiveFib.recursiveFib(2));
+                
+                //for n==5, fib(4) should return 3
+                assertEquals(4, RecursiveFib.recursiveFib(5));
+        }
+}
+
+
+//List all common elements from 2 lists
+public static List<Integer> commonElementsSet(List<Integer> list1, List<Integer> list2){
+                 Set<Integer> set = new HashSet<Integer>();
+                 for(int i=0; i<list1.size(); i++){
+                         if(set.contains(list1.get(i))){
+                                
+                         }
+                         else{
+                                 set.add(list1.get(i));
+                         }
+                 }
+                 List<Integer> list3 = new ArrayList<Integer>();
+                 for(int i=0; i<list2.size(); i++){
+                         if(set.contains(list2.get(i))){
+                                 list3.add(list2.get(i));                                 
+                         }
+                 }
+                 return list3;
+         }
+
+
+
+
+//Test
+public class ListsTest extends TestCase{
+        public void testFindCommonElements(){
+                assertEquals(Arrays.<Integer>asList(), 
+                                Lists.commonElements(Arrays.<Integer>asList(), Arrays.<Integer>asList()));
+                
+                assertEquals(Arrays.<Integer>asList(), 
+                                Lists.commonElements(Arrays.<Integer>asList(0, -2, -1), Arrays.<Integer>asList()));
+                
+                assertEquals(Arrays.<Integer>asList(), 
+                                Lists.commonElements(Arrays.<Integer>asList(), Arrays.<Integer>asList(0, -2, -1)));
+                
+                assertEquals(Arrays.<Integer>asList(1, 2), 
+                                Lists.commonElements(Arrays.<Integer>asList(1, 2, -4), 
+                                                Arrays.<Integer>asList(7, 4, 2, -5, 1)));
+                
+        }
+
+
+}
+
+
+//Random number Generator
+public static int randomNumberGenerator(Integer a){
+                Random r = new Random();
+                int number = 0;
+                for(int counter = 0; counter<5; counter++){                                                                                          number = r.nextInt(10);
+                        System.out.println(number + " ");
+                }
+                return number;
+        }
+        
+        public static void main(String[] args){
+                
+                System.out.println(RandomNumberGenerator.randomNumberGenerator(0));
+        }
+
+
+//String to Double, String to Integer
+public static double stringToDouble(String input){
+                double d = 0;
+                double power = 0.0;
+                for(int i=0; i<input.length(); i++){
+                        char c = input.charAt(i);
+                        int a = getDigit(c);
+                        if(a== '.'){
+                                continue;
+                        }
+                        d = (double)(d+a*Math.pow(10.0, power));
+                        power--;
+                }
+                return d;
+        }
+        
+        public static int stringToInteger(String str){
+                int answer = 0;
+                int power = 0;
+                for(int i = str.length()-1; i>=0; i--){
+                        char c = str.charAt(i);
+                        int a = getDigit(c);
+                        answer = (int) (answer+a*Math.pow(10, power));
+                        power++;
+                }
+                return answer;
+        }
+
+
+//Test Cases
+public class StringToIntTestTest {
+        
+        @Test
+        public void testStringToDouble() {
+                assertEquals(20.69, StringToInt.stringToDouble("20.69"));
+        }
+
+
+        @Test
+        public void testStringToInt() {
+                assertEquals(2069, StringToInt.stringToInteger("2069"));
+        }
+        
+        @Test
+        public void testShiftKPlaces() {
+                assertEquals("uebl", StringToInt.shiftKPlaces("blue", 2));
+        }
+
+
+}
+
+
+
+
+//Shift elements by Kth Places
+public static String shiftKPlaces(String str, int k){
+                if (str.isEmpty()) {
+                        return " ";
+                }
+                StringBuffer output = new StringBuffer();
+                for(int i = 0; i<str.length(); i++){
+                        int newPosition = (i-k+str.length())%str.length();
+                        output.append(str.charAt(newPosition));
+                }
+                return output.toString();
+        }
+
+
+//Iterator Implementation 
+public class IteratorImple {
+
+
+        public static void main(String[] args) {
+                ArrayList al = new ArrayList();
+                al.add('P');
+                al.add('R');
+                al.add('A');
+                al.add('N');
+                al.add('E');
+                al.add('E');
+                al.add('T');
+                al.add('H');
+                al.add('A');
+                
+                System.out.print("Contents of al are : ");
+                
+                Iterator itr = al.iterator();
+                while(itr.hasNext()){
+                        Object object = itr.next();
+                        System.out.print(object + " ");
+                }
+                
+                System.out.println();
+                ListIterator listIterator = al.listIterator();
+                while(listIterator.hasNext()){
+                        Object  object = listIterator.next();
+                        listIterator.set(object + "+");
+                }
+                
+                System.out.print("Modified contents of al are : ");
+                itr = al.iterator();
+                
+                while(itr.hasNext()){
+                        Object object = itr.next();
+                        System.out.print(object + " ");
+                }
+                System.out.println();
+                System.out.print("Reverse order : ");
+                
+                while(listIterator.hasPrevious()){
+                        Object  object = listIterator.previous();
+                        System.out.print(object + " ");
+                }        
+        }
+}
+
+
+//Reverse a String
+public class ReverseString {
+        
+        public static String reverseSting(String str){
+                StringBuffer output = new StringBuffer();
+                for(int i=str.length()-1; i>=0; i--){
+                        Character c = str.charAt(i);
+                        output.append(c);
+                }
+                return output.toString();
+        }
+}
+//Test Case
+public class ReverseStringTest {
+
+
+        @Test
+        public void test() {
+                assertEquals("elppa", ReverseString.reverseSting("apple"));
+        }
+
+
+}
