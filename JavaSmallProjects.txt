@@ -1,4 +1,210 @@
-﻿//A small interactive app in Java that displays some user credentials
+﻿package bankAccountApp;
+
+//Super class Accounts
+public abstract class Accounts implements InterestBaseRate{
+	//List common properties for checking and savings accounts(firstName, lastName, contact details)
+	private String name;
+	private String SSN;
+	private Double balance;
+	protected  String accountNumber;
+	protected double rate;
+	private static int index = 10000;
+	
+	//Constructor to set common properties and initialize the account
+	public Accounts(String name, String SSN, double initalDeposit){
+		this.name = name;
+		this.SSN = SSN;
+		balance = initalDeposit+100;
+		
+		//Set account number
+		index++;
+		this.accountNumber = setAccountNumber();
+		setRate();
+	}
+        //Abstract method setRate
+	public abstract void setRate();
+	
+	private String setAccountNumber(){
+		String lastThreeOfSSN = SSN.substring(SSN.length()-3, SSN.length());//(for last 3 digit SSN, you do 'SSN.substring(SSN.length()-3, SSN.length())')
+		int uniqueID = index;
+		int randomNumber = (int)(Math.random()*Math.pow(10, 3));//(to generate a random 3 digit number, you do 10 power 3)
+		return lastThreeOfSSN + uniqueID + randomNumber;
+	}
+	public void compound(){
+		double accuredInterest = balance * (rate/100);
+		balance = balance + accuredInterest;
+		System.out.println("Accured Interest : " + accuredInterest);
+		printBalance();
+	}
+	
+	//List common methods (deposit, withdraw, transfer, showInfo)
+	public void deposit(double amount){
+		balance = balance + amount;
+		System.out.println("Depositing amount $" + amount);
+		printBalance();
+	}
+	public void withdraw(double amount){
+		balance = balance - amount;
+		System.out.println("Withdrawing amount $" + amount);
+		printBalance();
+	}
+	public void transfer(String toWhere, double amount ){
+		balance = balance - amount;
+		System.out.println("Transfering amount to : $" + amount + " to " + toWhere);
+		printBalance();
+	}
+	public void printBalance(){
+		System.out.println("Your balance is now : $ " + balance );
+	}
+	
+	public void showInformation(){
+		System.out.println("Name : " + name
+				+"\nAccount Number : " + accountNumber
+				+"\nBalance : " + balance + 
+				"\n Rate : " + rate + "%" );
+		
+	}
+
+}
+**********
+package bankAccountApp;
+
+import java.util.LinkedList;
+import java.util.List;
+//BankAccountApplication main class
+public class BankAccountApplication {
+
+	public static void main(String[] args) {
+		
+		/*Savings savings = new Savings("Lily Belle", "987654321", 2000);
+		Checking checking = new Checking("Tim Wilson", "123456789", 1500);
+		savings.showInformation();
+		System.out.println();
+		checking.showInformation();
+		
+		savings.compound();
+		
+		savings.deposit(5000);
+		savings.withdraw(1000);
+		savings.transfer("Insurance", 500);
+		
+	
+		*/
+		
+		List<Accounts> list = new LinkedList<Accounts>();
+		
+		//Read a CSV file then create new accounts based on the data
+		String file = " /Users/praneetharaj/Documents/New\ Accounts.txt ";//Not able to read this file. Trying to work different ways.
+		List<String[]> newAccountHolder =  utilities.CSV.read(file);
+		for(String[] accountHolder : newAccountHolder){
+			String name = accountHolder[0];
+			String SSN = accountHolder[1];
+			String accountType = accountHolder[2];
+			double initialDeposit = Double.parseDouble(accountHolder[3]);
+			System.out.println(name + " " + SSN + " " + accountType + "$" + initialDeposit);
+			if(accountType.equals("Savings")){
+				System.out.println("Open a savings account");
+				list.add(new Savings(name, SSN, initialDeposit));
+			}
+			else{
+				if(accountType.equals("Checking")){
+					System.out.println("Open a checking account");
+					list.add(new Checking(name, SSN, initialDeposit));
+				}
+				else{
+					System.out.println("Error reading account type");
+				}
+			}
+		
+			
+			for(Accounts account : list){
+				System.out.println("\n ***********");
+				account.showInformation();
+			}
+		}
+
+	}
+
+}
+***********
+package bankAccountApp;
+//Subclass Checking class
+public class Checking extends Accounts{
+	//List properties specific to the checking account(debit card and a pin)
+	private int debitCardNumber;
+	private int debitCardPin;
+	
+	//call constructor to initialize our checking account properties
+	public Checking(String name, String SSN, double initalDeposit){
+		super(name, SSN, initalDeposit);
+		accountNumber = "2" + accountNumber;
+		setDebitCard();
+	}
+	@Override
+	public void setRate() {
+		rate = getBaseRate() * 0.15;
+		
+	}
+	
+	//List any methods specific to the checking account	
+	public void setDebitCard(){
+		debitCardNumber = (int)(Math.random() * Math.pow(10, 12));
+		debitCardPin = (int)(Math.random() * Math.pow(10, 4));
+	}
+        //Shows all specific information related to only checking
+	public void showInformation(){
+		super.showInformation();
+		System.out.println("Your Checking account features :  " + 
+		"\n Your debit card number : " + debitCardNumber + 
+		"\n Your debit card pin : " + debitCardPin );	
+	}
+}
+**********
+package bankAccountApp;
+//Subclass Checking class
+public class Savings extends Accounts{
+	//List properties specific to the savings account(debit card and a pin)
+	private int safetyDepositBoxId;
+	private int safetyDepositBoxKey;
+	
+	//call constructor to initialize our checking account properties
+	public Savings(String name, String SSN, double initalDeposit){
+		super(name, SSN, initalDeposit);
+		accountNumber = "1" + accountNumber;
+		setSafetyDepositBox();		
+	}
+	@Override
+	public void setRate() {
+		rate = getBaseRate() - 0.25;
+	}
+
+	
+	public void setSafetyDepositBox(){
+		safetyDepositBoxId = (int)(Math.random()*Math.pow(10, 3));
+		safetyDepositBoxKey = (int)(Math.random() * Math.pow(10, 4));
+	}
+		
+	//List any methods specific to the savings account
+	public void showInformation(){
+		super.showInformation();
+		System.out.println("Your Savings account features : " +
+		"\n Safety Deposit Box ID : " + safetyDepositBoxId +
+		"\n Safety Deposit Box Key : " + safetyDepositBoxKey );
+	}
+}
+**********
+package bankAccountApp;
+//Interface InterestBaseRate
+public interface InterestBaseRate {
+
+	//write a method to return base rate
+	default double getBaseRate(){
+		return 2.5;
+	}
+}
+***************
+ 
+ //A small interactive app in Java that displays some user credentials
 package emailApp;
 import java.util.Scanner;
 
